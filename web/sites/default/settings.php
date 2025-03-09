@@ -309,7 +309,7 @@ $settings['hash_salt'] = 'wHteYY0wdvNjKov-6Ty1wVXs6Y0ndoDt9ryrYQfpT_b3gzeLl9lfmn
  * After finishing the upgrade, be sure to open this file again and change the
  * TRUE back to a FALSE!
  */
-$settings['update_free_access'] = FALSE;
+$settings['update_free_access'] = false;
 
 /**
  * Fallback to HTTP for Update Manager and for fetching security advisories.
@@ -762,7 +762,12 @@ $settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.yml';
  *
  * @see https://www.drupal.org/docs/installing-drupal/trusted-host-settings
  */
-# $settings['trusted_host_patterns'] = [];
+$settings['trusted_host_patterns'] = [
+  '^localhost$',
+  '127\.0\.0\.1',
+  // Or use preg_quote() to escape the dots and other characters.
+  preg_quote('127.0.0.1'),
+];
 
 /**
  * The default list of directories that will be ignored by Drupal's file API.
@@ -796,7 +801,7 @@ $settings['entity_update_batch_size'] = 50;
  * well as the original entity type and field storage definitions should be
  * retained after a successful entity update process.
  */
-$settings['entity_update_backup'] = TRUE;
+$settings['entity_update_backup'] = true;
 
 /**
  * Node migration type.
@@ -809,7 +814,7 @@ $settings['entity_update_backup'] = TRUE;
  * complete node migrations. Set this to TRUE to force the use of the classic
  * node migrations.
  */
-$settings['migrate_node_migrate_type_classic'] = FALSE;
+$settings['migrate_node_migrate_type_classic'] = false;
 
 /**
  * The default settings for migration sources.
@@ -871,12 +876,12 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 # if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
 #   include $app_root . '/' . $site_path . '/settings.local.php';
 # }
-$databases['default']['default'] = array (
+$databases['default']['default'] = array(
   'database' => 'drupal_one',
   'username' => 'user_one',
   'password' => '7GoldenEagles!',
   'prefix' => '',
-  'host' => 'localhost',
+  'host' => '127.0.0.1',
   'port' => '3306',
   'isolation_level' => 'READ COMMITTED',
   'driver' => 'mysql',

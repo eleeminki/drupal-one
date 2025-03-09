@@ -58,6 +58,7 @@ class SerializerPass implements CompilerPassInterface
             $defaultContext = $container->getParameter('serializer.default_context');
             $this->bindDefaultContext($container, array_merge($normalizers, $encoders), $defaultContext);
             $container->getParameterBag()->remove('serializer.default_context');
+            $container->getDefinition('serializer')->setArgument('$defaultContext', $defaultContext);
         }
 
         $this->configureSerializer($container, 'serializer', $normalizers, $encoders, 'default');
@@ -150,7 +151,7 @@ class SerializerPass implements CompilerPassInterface
 
             $this->bindDefaultContext($container, array_merge($normalizers, $encoders), $config['default_context']);
 
-            $container->registerChild($serializerId, 'serializer');
+            $container->registerChild($serializerId, 'serializer')->setArgument('$defaultContext', $config['default_context']);
             $container->registerAliasForArgument($serializerId, SerializerInterface::class, $serializerName.'.serializer');
 
             $this->configureSerializer($container, $serializerId, $normalizers, $encoders, $serializerName);
